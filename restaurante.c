@@ -12,16 +12,17 @@ typedef struct{
 typedef struct{
     Produto produtos[100];
     int qtd;
-}Menu;
+}Cardapio;
 
-void cadastrar(Menu *menu);
-void imprimir(Menu *menu);
-void excluir(Menu *menu);
+void cadastrar(Cardapio *cardapio);
+void imprimir(Cardapio *cardapio);
+void excluir(Cardapio *cardapio);
 char opcoes();
+void fazerPedido(Cardapio *cardapio);
 
 void main(){
-    Menu menu;
-    menu.qtd = 0;
+    Cardapio cardapio;
+    cardapio.qtd = 0;
 
     while(1){
         fflush(stdin);
@@ -31,15 +32,19 @@ void main(){
         }
         switch(op){
             case '1':
-                cadastrar(&menu);
+                cadastrar(&cardapio);
                 system("pause");
                 break;
             case '2':
-                imprimir(&menu);
+                imprimir(&cardapio);
                 system("pause");
                 break;
             case '3':
-                excluir(&menu);
+                excluir(&cardapio);
+                system("pause");
+                break;
+            case '4':
+                fazerPedido(&cardapio);
                 system("pause");
                 break;
             default:
@@ -57,22 +62,23 @@ char opcoes(){
     char op;
     printf("============ RESTAURANTE ============\n\n");
     printf("1 - CADASTRAR PRODUTO\n");
-    printf("2 - LISTAR\n");
+    printf("2 - IMPRIMIR cardapio\n");
     printf("3 - EXCLUIR\n");
+    printf("4 - FAZER PEDIDO\n");
     printf("0 - SAIR\n");
     printf(">> ");
     scanf("%c", &op);
     return op;
 }
 
-void cadastrar(Menu *menu){
+void cadastrar(Cardapio *cardapio){
     char descricao[100];
     float preco;
     int qtd;
     system("cls");
     fflush(stdin);
-    printf("========== CADASTRAR ==========\n\n");
-    printf("DESCRICAO: ");
+    printf("========== CADASTRAR PRODUTOS ==========\n\n");
+    printf("NOME: ");
     gets(descricao);
     printf("PRECO: ");
     scanf("%f", &preco);
@@ -80,41 +86,41 @@ void cadastrar(Menu *menu){
     scanf("%d", &qtd);
 
     int codigo;
-    if(menu->qtd == 0){
+    if(cardapio->qtd == 0){
         codigo = 1;
     }else{
-        codigo = menu->produtos[menu->qtd - 1].codigo + 1;
+        codigo = cardapio->produtos[cardapio->qtd - 1].codigo + 1;
     }
 
-    menu->produtos[menu->qtd].codigo = codigo;
-    strcpy(menu->produtos[menu->qtd].descricao, descricao);
-    menu->produtos[menu->qtd].preco = preco;
-    menu->produtos[menu->qtd].qtd = qtd;
-    menu->qtd++;
+    cardapio->produtos[cardapio->qtd].codigo = codigo;
+    strcpy(cardapio->produtos[cardapio->qtd].descricao, descricao);
+    cardapio->produtos[cardapio->qtd].preco = preco;
+    cardapio->produtos[cardapio->qtd].qtd = qtd;
+    cardapio->qtd++;
 
     printf("\nProduto cadastrado com sucesso!\n");
 }//Fim do cadastrar
 
-void imprimir(Menu *menu){
+void imprimir(Cardapio *cardapio){
     system("cls");
-    printf("========== MENU ==========\n\n");
+    printf("========== cardapio ==========\n\n");
     printf("------------------------------------");
     int i;
-    for(i=0 ; i<menu->qtd ; i++){
-        printf("\nCODIGO: %d", menu->produtos[i].codigo);
+    for(i=0 ; i<cardapio->qtd ; i++){
+        printf("\nCODIGO: %d", cardapio->produtos[i].codigo);
         printf("\nDESCRICAO: ");
-        puts(menu->produtos[i].descricao);
-        printf("PRECO: R$ %.2f", menu->produtos[i].preco);
-        printf("\nQTD: %d", menu->produtos[i].qtd);
+        puts(cardapio->produtos[i].descricao);
+        printf("PRECO: R$ %.2f", cardapio->produtos[i].preco);
+        printf("\nQTD: %d", cardapio->produtos[i].qtd);
         printf("\n------------------------------------");
     }
     printf("\n");
 }//fim do Imprimir
 
-void excluir(Menu *menu){
+void excluir(Cardapio *cardapio){
     system("cls");
     printf("========== EXCLUIR ==========\n\n");
-    imprimir(menu);
+    imprimir(cardapio);
     int c;
     printf("Qual produto deseja excluir?: ");
     scanf("%d", &c);
@@ -123,12 +129,12 @@ void excluir(Menu *menu){
     scanf("%d", &certeza);
     if(certeza == 1){
         int i,j, encontrado = 0;
-        for(i = 0; i < menu->qtd; i++){
-            if(menu->produtos[i].codigo == c){
-                for(j = i; j < menu->qtd - 1; j++){
-                    menu->produtos[j] = menu->produtos[j + 1];
+        for(i = 0; i < cardapio->qtd; i++){
+            if(cardapio->produtos[i].codigo == c){
+                for(j = i; j < cardapio->qtd - 1; j++){
+                    cardapio->produtos[j] = cardapio->produtos[j + 1];
                 }
-                menu->qtd--;
+                cardapio->qtd--;
                 encontrado = 1;
                 break;
             }
@@ -141,3 +147,7 @@ void excluir(Menu *menu){
         printf("\n");
     }
 }//Fim do Excluir
+
+void fazerPedido(Cardapio *cardapio){
+	
+}
