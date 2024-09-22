@@ -96,7 +96,7 @@ void cadastrar(Cardapio *cardapio, FILE *arq_caradapio){
         fprintf(arq_caradapio, "%d %s %.2f %d",codigo, descricao, preco, qtd);
     }else{
         codigo = cardapio->produtos[cardapio->qtd - 1].codigo + 1;
-        fprintf(arq_caradapio, "%d %s %.2f %d",codigo, descricao, preco, qtd);
+        fprintf(arq_caradapio, "\n%d %s %.2f %d",codigo, descricao, preco, qtd);
     }
 
     cardapio->produtos[cardapio->qtd].codigo = codigo;
