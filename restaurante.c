@@ -14,11 +14,12 @@ typedef struct{
     int qtd;
 }Cardapio;
 
-void cadastrar(Cardapio *cardapio);
+void cadastrar(Cardapio *cardapio, FILE *arq_caradapio);
 void imprimir(Cardapio *cardapio);
 void excluir(Cardapio *cardapio);
 char opcoes();
 void fazerPedido(Cardapio *cardapio);
+FILE *arq_caradapio;
 
 void main(){
     Cardapio cardapio;
@@ -32,7 +33,8 @@ void main(){
         }
         switch(op){
             case '1':
-                cadastrar(&cardapio);
+                cadastrar(&cardapio, arq_caradapio);
+                fclose(arq_caradapio);
                 system("pause");
                 break;
             case '2':
@@ -62,7 +64,7 @@ char opcoes(){
     char op;
     printf("============ RESTAURANTE ============\n\n");
     printf("1 - CADASTRAR PRODUTO\n");
-    printf("2 - IMPRIMIR cardapio\n");
+    printf("2 - IMPRIMIR CARDAPIO\n");
     printf("3 - EXCLUIR\n");
     printf("4 - FAZER PEDIDO\n");
     printf("0 - SAIR\n");
@@ -71,11 +73,14 @@ char opcoes(){
     return op;
 }
 
-void cadastrar(Cardapio *cardapio){
+void cadastrar(Cardapio *cardapio, FILE *arq_caradapio){
     char descricao[100];
     float preco;
     int qtd;
     system("cls");
+
+    arq_caradapio = fopen("cardapio.txt", "a");
+
     fflush(stdin);
     printf("========== CADASTRAR PRODUTOS ==========\n\n");
     printf("NOME: ");
@@ -88,8 +93,10 @@ void cadastrar(Cardapio *cardapio){
     int codigo;
     if(cardapio->qtd == 0){
         codigo = 1;
+        fprintf(arq_caradapio, "%d %s %.2f %d",codigo, descricao, preco, qtd);
     }else{
         codigo = cardapio->produtos[cardapio->qtd - 1].codigo + 1;
+        fprintf(arq_caradapio, "%d %s %.2f %d",codigo, descricao, preco, qtd);
     }
 
     cardapio->produtos[cardapio->qtd].codigo = codigo;
@@ -99,11 +106,13 @@ void cadastrar(Cardapio *cardapio){
     cardapio->qtd++;
 
     printf("\nProduto cadastrado com sucesso!\n");
+    getchar();
+
 }//Fim do cadastrar
 
 void imprimir(Cardapio *cardapio){
     system("cls");
-    printf("========== cardapio ==========\n\n");
+    printf("========== CARDAPIO ==========\n\n");
     printf("------------------------------------");
     int i;
     for(i=0 ; i<cardapio->qtd ; i++){
@@ -149,5 +158,5 @@ void excluir(Cardapio *cardapio){
 }//Fim do Excluir
 
 void fazerPedido(Cardapio *cardapio){
-	
+
 }
