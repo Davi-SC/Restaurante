@@ -304,22 +304,29 @@ void excluirItem() {
 
 
 void fazerPedido(Pedido *pedido) {
-    int opcao;
-    do {
-    	system("cls");
-        consultarItens();
-        exibirResumoPedido(pedido);
-        adicionarPedido(pedido);
+    FILE *p = fopen("menu.txt", "r");
+    if(p == NULL){
+        printf("O menu esta vazio, volte mais tarde...\n\n");
+        system("pause");
+    }else{
+        int opcao;
+        do {
+            system("cls");
+            consultarItens();
+            exibirResumoPedido(pedido);
+            adicionarPedido(pedido);
 
-        printf("\nDeseja adicionar mais itens?\n");
-        printf("1. Sim\n2. Finalizar Pedido\n");
-        scanf("%d", &opcao);
+            printf("\nDeseja adicionar mais itens?\n");
+            printf("1. Sim\n2. Finalizar Pedido\n");
+            scanf("%d", &opcao);
 
 
-    } while (opcao != 2);
+        } while (opcao != 2);
 
     salvarPedido(pedido);
     system("cls");
+    }
+
 }// fim do fazerPedido
 
 void adicionarPedido(Pedido *pedido) {
