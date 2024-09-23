@@ -15,17 +15,17 @@ typedef struct {
     int totalItens;
 } Pedido;
 
-
-void cadastrarItem();
-void consultarItens();
-void atualizarItem();
-void excluirItem();
-void fazerPedido(Pedido *pedido) ;
-void adicionarPedido(Pedido *pedido);
-void exibirResumoPedido(Pedido *pedido);
-void salvarPedido(Pedido *pedido);
-void menuFuncionario();
-void menuCliente();
+int gerarProximoID(): //Savio
+void cadastrarItem(); //Savio
+void consultarItens(); //Savio
+void atualizarItem(); //Savio
+void excluirItem(); //Savio
+void fazerPedido(Pedido *pedido); //Davi
+void adicionarPedido(Pedido *pedido); //Davi
+void exibirResumoPedido(Pedido *pedido); //Davi
+void salvarPedido(Pedido *pedido); //Davi
+void menuFuncionario(); //Savio
+void menuCliente(); //Davi
 
 void main() {
     int opcao;
