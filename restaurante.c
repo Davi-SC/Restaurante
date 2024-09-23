@@ -30,12 +30,13 @@ void menuCliente();
 void main() {
     int opcao;
     do {
-    	system("cls");
-        printf("\n--- Sistema de Restaurante ---\n");
+        system("cls");
+        printf("\n--- Sistema de Restaurante ---\n\n");
         printf("1. Funcionario\n");
         printf("2. Cliente\n");
         printf("3. Sair\n");
-        printf("Escolha uma opcao: ");
+        printf(">> ");
+        fflush(stdin);
         scanf("%d", &opcao);
 
         switch(opcao) {
@@ -46,47 +47,54 @@ void main() {
                 menuCliente();
                 break;
             case 3:
-                printf("Saindo...\n");
+                printf("\nSaindo...\n");
                 break;
             default:
-                printf("Opção invalida!\n");
+                printf("\nOpcao invalida!\n\n");
+                system("pause");
         }
     } while (opcao != 3);
-    
+
 }// fim do main
 
 void menuFuncionario() {
     int opcao;
     do {
     	system("cls");
-        printf("\n--- Menu Funcionario ---\n");
+        printf("\n--- Menu Funcionario ---\n\n");
         printf("1. Cadastrar Item no Menu\n");
         printf("2. Consultar Itens do Menu\n");
         printf("3. Atualizar Item do Menu\n");
         printf("4. Excluir Item do Menu\n");
         printf("5. Voltar ao Menu Principal\n");
-        printf("Escolha uma opcao: ");
+        printf(">> ");
+        fflush(stdin);
         scanf("%d", &opcao);
 
         switch (opcao) {
             case 1:
+                system("cls");
                 cadastrarItem();
                 break;
             case 2:
+                system("cls");
                 consultarItens();
                 system("pause");
                 break;
             case 3:
+                system("cls");
                 atualizarItem();
                 break;
             case 4:
+                system("cls");
                 excluirItem();
                 break;
             case 5:
-                printf("Voltando ao menu principal...\n");
+                printf("\nVoltando ao menu principal...\n");
                 break;
             default:
-                printf("Opção invalida!\n");
+                printf("\nOpcao invalida!\n\n");
+                system("pause");
         }
     } while (opcao != 5);
 }// fim do menu do Funcionario
@@ -97,10 +105,11 @@ void menuCliente() {
     int opcao;
     do {
     	system("cls");
-        printf("\n--- Menu Cliente ---\n");
+        printf("\n--- Menu Cliente ---\n\n");
         printf("1. Fazer Pedido\n");
         printf("2. Voltar ao Menu Principal\n");
-        printf("Escolha uma opcao: ");
+        printf(">> ");
+        fflush(stdin);
         scanf("%d", &opcao);
 
         switch (opcao) {
@@ -108,10 +117,11 @@ void menuCliente() {
                 fazerPedido(&pedido);
                 break;
             case 2:
-                printf("Voltando ao menu principal...\n");
+                printf("\nVoltando ao menu principal...\n");
                 break;
             default:
-                printf("Opção invalida!\n");
+                printf("\nOpcao invalida!\n\n");
+                system("pause");
         }
     } while (opcao != 2);
 }// fim do menu do cliente
@@ -137,29 +147,31 @@ int gerarProximoID() {
 void cadastrarItem() {
     FILE *arquivo = fopen("menu.txt", "a");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
+        printf("Erro ao abrir o arquivo!\n\n");
         system("pause");
         return;
     }
 
     ItemMenu item;
-    item.id = gerarProximoID(); 
+    item.id = gerarProximoID();
     printf("Digite o nome do item: ");
+    fflush(stdin);
     scanf("%s", &item.nome);
     printf("Digite o preço do item: ");
+    fflush(stdin);
     scanf("%f", &item.preco);
 
     fprintf(arquivo, "%d %s %.2f\n", item.id, item.nome, item.preco);
     fclose(arquivo);
 
-    printf("Item cadastrado com sucesso! ID gerado: %d\n", item.id);
+    printf("Item cadastrado com sucesso! ID gerado: %d\n\n", item.id);
     system("pause");
 }// fim do cadastrarItem
 
 void consultarItens() {
     FILE *arquivo = fopen("menu.txt", "r");
     if (arquivo == NULL) {
-        printf("Nenhum item encontrado!\n");
+        printf("Nenhum item encontrado!\n\n");
         system("pause");
         return;
     }
@@ -175,7 +187,7 @@ void consultarItens() {
 void atualizarItem() {
     FILE *arquivo = fopen("menu.txt", "r");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
+        printf("Erro ao abrir o arquivo!\n\n");
         system("pause");
         return;
     }
@@ -188,7 +200,9 @@ void atualizarItem() {
     fclose(arquivo);
 
     int id;
-    printf("Digite o ID do item que deseja atualizar: ");
+    consultarItens();
+    printf("\nDigite o ID do item que deseja atualizar: ");
+    fflush(stdin);
     scanf("%d", &id);
 
     int encontrado = 0;
@@ -199,8 +213,10 @@ void atualizarItem() {
             printf("Item encontrado: %s | Preço: %.2f\n", itens[i].nome, itens[i].preco);
 
             printf("\nDigite o novo nome do item: ");
+            fflush(stdin);
             scanf("%s", itens[i].nome);
             printf("Digite o novo preço do item: ");
+            fflush(stdin);
             scanf("%f", &itens[i].preco);
 
             break;
@@ -208,14 +224,14 @@ void atualizarItem() {
     }
 
     if (!encontrado) {
-        printf("Item com ID %d não encontrado!\n", id);
+        printf("Item com ID %d não encontrado!\n\n", id);
         system("pause");
         return;
     }
 
     arquivo = fopen("menu.txt", "w");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
+        printf("Erro ao abrir o arquivo!\n\n");
         system("pause");
         return;
     }
@@ -225,14 +241,14 @@ void atualizarItem() {
     }
     fclose(arquivo);
 
-    printf("Item atualizado com sucesso!\n");
+    printf("Item atualizado com sucesso!\n\n");
     system("pause");
 } // fim do atualizarItem
 
 void excluirItem() {
     FILE *arquivo = fopen("menu.txt", "r");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
+        printf("Erro ao abrir o arquivo!\n\n");
         system("pause");
         return;
     }
@@ -245,7 +261,9 @@ void excluirItem() {
     fclose(arquivo);
 
     int id;
-    printf("Digite o ID do item que deseja excluir: ");
+    consultarItens();
+    printf("\nDigite o ID do item que deseja excluir: ");
+    fflush(stdin);
     scanf("%d", &id);
 
     int encontrado = 0;
@@ -263,7 +281,7 @@ void excluirItem() {
     }
 
     if (!encontrado) {
-        printf("Item não encontrado!\n");
+        printf("Item não encontrado!\n\n");
         system("pause");
         return;
     }
@@ -290,17 +308,17 @@ void fazerPedido(Pedido *pedido) {
     do {
     	system("cls");
         consultarItens();
-        exibirResumoPedido(pedido); 
+        exibirResumoPedido(pedido);
         adicionarPedido(pedido);
 
         printf("\nDeseja adicionar mais itens?\n");
         printf("1. Sim\n2. Finalizar Pedido\n");
         scanf("%d", &opcao);
 
-        
+
     } while (opcao != 2);
 
-    salvarPedido(pedido); 
+    salvarPedido(pedido);
     system("cls");
 }// fim do fazerPedido
 
@@ -337,7 +355,7 @@ void adicionarPedido(Pedido *pedido) {
             break;
         }
     }
-    
+
     fclose(arquivo);
 
     if (!encontrado) {
@@ -398,6 +416,6 @@ void salvarPedido(Pedido *pedido) {
     fclose(arquivo);
     printf("Pedido salvo com sucesso!\n");
     system("pause");
-    
-    
+
+
 }// fim do salvarPedido
